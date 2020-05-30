@@ -1,0 +1,16 @@
+{
+  "name": "webmonetizer-js",
+  "version": "1.0.0",
+  "description": "A library that provides a quick and easy way to add Web Monetization to your Web Apps",
+  "main": "webmonetizer-js.js",
+  "types": "webmonetizer-js.d.ts",
+  "keywords": [
+    "web",
+    "monetization"
+  ],
+  "author": "Overrideveloper",
+  "license": "MIT",
+  "dependencies": {
+    "rxjs": "^6.5.5"
+  }
+}

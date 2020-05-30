@@ -1,0 +1,35 @@
+{
+  "name": "webmonetizer-js",
+  "version": "1.0.0",
+  "description": "A library that provides a quick and easy way to add Web Monetization to your Web Apps",
+  "main": "dist/webmonetizer-js.js",
+  "types": "dist/webmonetizer-js.d.ts",
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "npm run clean && npm run lint && tsc && webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "web",
+    "monetization"
+  ],
+  "author": "Overrideveloper",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "awesome-typescript-loader": "^5.2.1",
+    "copy-webpack-plugin": "^6.0.1",
+    "rimraf": "^3.0.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.5"
+  }
+}
