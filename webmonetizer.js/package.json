@@ -8,7 +8,7 @@
     "clean": "rimraf dist/*",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "npm run clean && npm run lint && tsc && webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "files": [
     "dist"
@@ -20,10 +20,15 @@
   "author": "Overrideveloper",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/jsdom": "^16.2.3",
     "@types/node": "^14.0.5",
     "awesome-typescript-loader": "^5.2.1",
     "copy-webpack-plugin": "^6.0.1",
+    "jest": "^26.0.1",
+    "jsdom": "^16.2.2",
     "rimraf": "^3.0.2",
+    "ts-jest": "^26.0.0",
     "tslint": "^6.1.2",
     "typescript": "^3.9.3",
     "webpack": "^4.43.0",
