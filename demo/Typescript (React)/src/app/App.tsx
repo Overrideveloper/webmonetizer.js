@@ -9,9 +9,9 @@ mocks.MOCK_MONETIZATION();
 let paymentSimulator;
 const webMonetizer = new WebMonetizer("PAYMENT_POINTER");
 
-class App extends React.Component<any, IState> {
-    constructor() {
-        super({});
+class App extends React.Component<{}, IState> {
+    constructor(props: any) {
+        super(props);
 
         this.state = {
             monetizationState: null,
