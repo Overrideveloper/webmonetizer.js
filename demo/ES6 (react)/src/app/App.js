@@ -10,7 +10,7 @@ const webMonetizer = new WebMonetizer("PAYMENT_POINTER");
 
 class App extends Component {
     constructor() {
-        super();
+        super(this.props);
 
         this.state = {
             monetizationState: null,
