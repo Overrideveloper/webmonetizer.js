@@ -5,10 +5,18 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { initializeEvents, emitNewPayment, scaleAmountDown, _paymentPointer } from "./symbols";
 
 export class WebMonetizer {
+    /** Emits current monetization state */
     public state: BehaviorSubject<WebMonetizerStatus>;
+
+    /** Emits streaming micropayments */
     public newPayment: Subject<IPayment>;
+
+    /** Unique payment URL */
     private [_paymentPointer]: string;
 
+    /** Create instance of WebMonetizer
+     * @param {string} paymentPointer - Unique payment URL
+    */
     constructor(paymentPointer: string) {
       if (!paymentPointer) {
         throw new Error("Payment pointer cannot be null");
@@ -23,6 +31,7 @@ export class WebMonetizer {
       this[initializeEvents]();
     }
 
+    /** Setup listeners for monetization events */
     private [initializeEvents]() {
       if ((document as any).monetization) {
         (document as any).monetization.addEventListener(MonetizationEvents.START, () => this.state.next("started"));
@@ -32,6 +41,9 @@ export class WebMonetizer {
       }
     }
 
+    /** Emit streamed micropayment detail via the `newPayment` Subject
+     * @param {IProgressEventDetail} detail - Monetization progress event detail
+    */
     private async [emitNewPayment](detail: IProgressEventDetail) {
       const payment: IPayment = {
         currency: detail.assetCode,
@@ -43,10 +55,16 @@ export class WebMonetizer {
       this.newPayment.next(payment);
     }
 
+    /** Scale micropayment amount down to actual value
+     * @param {string} amount - Micropayment amount value
+     * @param {scale} scale - Micropayment amount scale
+     * @returns {number} Actual (scaled-down) amount value
+    */
     private [scaleAmountDown](amount: string, scale: number) {
       return Number((Number(amount) * Math.pow(10, -scale)).toFixed(scale));
     }
 
+    /** Begin sending micropayments */
     public stop() {
       if ((document as any).monetization) {
         REMOVE_META_TAG();
@@ -55,6 +73,7 @@ export class WebMonetizer {
       }
     }
 
+    /** Stop sending micropayments */
     public start() {
       if ((document as any).monetization) {
         INJECT_META_TAG(this[_paymentPointer]);
