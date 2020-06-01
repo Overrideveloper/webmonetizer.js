@@ -226,8 +226,8 @@ export default App;
 ```
 
 # Resources
-[ES6 Demo]("https://codesandbox.io/s/webmonetizer-js-es6-demo-tycpu")
+[ES6 Demo](https://codesandbox.io/s/webmonetizer-js-es6-demo-tycpu)
 
-[Typescript Demo]("https://codesandbox.io/s/webmonetizer-js-typescript-demo-i6jtu")
+[Typescript Demo](https://codesandbox.io/s/webmonetizer-js-typescript-demo-i6jtu)
 
-[Vanilla JS Demo]("https://codesandbox.io/s/webmonetizer-js-vanilla-js-demo-k2cpq")
+[Vanilla JS Demo](https://codesandbox.io/s/webmonetizer-js-vanilla-js-demo-k2cpq)
