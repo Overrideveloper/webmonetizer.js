@@ -9,8 +9,8 @@ let paymentSimulator;
 const webMonetizer = new WebMonetizer("PAYMENT_POINTER");
 
 class App extends Component {
-    constructor() {
-        super(this.props);
+    constructor(props) {
+        super(props);
 
         this.state = {
             monetizationState: null,
