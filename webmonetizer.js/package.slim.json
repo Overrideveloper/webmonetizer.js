@@ -8,6 +8,10 @@
     "web",
     "monetization"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Overrideveloper/webmonetizer.js/tree/master/webmonetizer.js"
+  },
   "author": "Overrideveloper",
   "license": "MIT",
   "dependencies": {
