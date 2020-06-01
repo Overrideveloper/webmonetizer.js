@@ -2,33 +2,40 @@ import { WebMonetizerStatus, IProgressEventDetail, IPayment } from "./types";
 import { MonetizationEvents } from './enums';
 import { REMOVE_META_TAG, BROWSER_UNSUPPORTED_WARNING, INJECT_META_TAG } from './utils';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { initializeEvents, emitNewPayment, scaleAmountDown, _paymentPointer } from "./symbols";
 
 export class WebMonetizer {
     public state: BehaviorSubject<WebMonetizerStatus>;
     public newPayment: Subject<IPayment>;
+    private [_paymentPointer]: string;
 
-    constructor(private paymentPointer: string) {
+    constructor(paymentPointer: string) {
+      if (!paymentPointer) {
+        throw new Error("Payment pointer cannot be null");
+      }
+
       const initialState: WebMonetizerStatus = !(document as any).monetization ? 'unsupported' : (document as any).monetization.state;
 
       this.newPayment = new Subject();
       this.state = new BehaviorSubject(initialState);
+      this[_paymentPointer] = paymentPointer;
 
-      this.initializeEvents();
+      this[initializeEvents]();
     }
 
-    private initializeEvents() {
+    private [initializeEvents]() {
       if ((document as any).monetization) {
         (document as any).monetization.addEventListener(MonetizationEvents.START, () => this.state.next("started"));
         (document as any).monetization.addEventListener(MonetizationEvents.PENDING, () => this.state.next("pending"));
         (document as any).monetization.addEventListener(MonetizationEvents.STOP, () => this.state.next("stopped"));
-        (document as any).monetization.addEventListener(MonetizationEvents.PROGRESS, (event: CustomEvent) => this.emitNewPayment(event.detail as IProgressEventDetail));
+        (document as any).monetization.addEventListener(MonetizationEvents.PROGRESS, (event: CustomEvent) => this[emitNewPayment](event.detail as IProgressEventDetail));
       }
     }
 
-    private async emitNewPayment(detail: IProgressEventDetail) {
+    private async [emitNewPayment](detail: IProgressEventDetail) {
       const payment: IPayment = {
         currency: detail.assetCode,
-        amount: this.scaleAmountDown(detail.amount, detail.assetScale),
+        amount: this[scaleAmountDown](detail.amount, detail.assetScale),
         paymentPointer: detail.paymentPointer,
         requestId: detail.requestId
       }
@@ -36,7 +43,7 @@ export class WebMonetizer {
       this.newPayment.next(payment);
     }
 
-    private scaleAmountDown(amount: string, scale: number) {
+    private [scaleAmountDown](amount: string, scale: number) {
       return Number((Number(amount) * Math.pow(10, -scale)).toFixed(scale));
     }
 
@@ -50,7 +57,7 @@ export class WebMonetizer {
 
     public start() {
       if ((document as any).monetization) {
-        INJECT_META_TAG(this.paymentPointer);
+        INJECT_META_TAG(this[_paymentPointer]);
       } else {
         BROWSER_UNSUPPORTED_WARNING();
       }
